@@ -1,0 +1,363 @@
+/* --- Modern Professional Layout --- */
+body {
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f7fa;
+    color: #222;
+}
+h1 {
+    margin-top: 0;
+    padding: 32px 0 0 0;
+    text-align: center;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    color: #1a237e;
+}
+h3 {
+    text-align: center;
+    margin-top: 0;
+    color: #607d8b;
+    font-weight: 400;
+}
+.input-section {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(30, 34, 90, 0.07);
+    padding: 24px 32px 16px 32px;
+    margin: 24px auto 16px auto;
+    max-width: 900px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px 24px;
+}
+.input-section label {
+    font-weight: 500;
+    color: #374151;
+    margin-right: 4px;
+}
+.input-section input[type="date"],
+.input-section input[type="number"] {
+    border: 1px solid #bfc9d9;
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 1rem;
+    background: #f8fafc;
+    transition: border 0.2s;
+}
+.input-section input[type="date"]:focus,
+.input-section input[type="number"]:focus {
+    border: 1.5px solid #1976d2;
+    outline: none;
+}
+.input-section button {
+    background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.08);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.input-section button:hover {
+    background: linear-gradient(90deg, #1565c0 60%, #1976d2 100%);
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.13);
+}
+/* Hide the Load Data from CSV button */
+#loadCsvBtn { display: none; }
+
+/* --- Calculate Button Click Effect --- */
+#calculateBtn.clicked {
+    animation: calcBtnClick 0.25s;
+}
+@keyframes calcBtnClick {
+    0% { transform: scale(1); box-shadow: 0 2px 6px rgba(25, 118, 210, 0.08); }
+    50% { transform: scale(0.93); box-shadow: 0 0 0 rgba(25, 118, 210, 0); }
+    100% { transform: scale(1); box-shadow: 0 2px 6px rgba(25, 118, 210, 0.08); }
+}
+
+/* --- Tabs --- */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 0;
+    background: #e3eafc;
+    border-bottom: 2px solid #bfc9d9;
+    box-shadow: 0 2px 8px rgba(30, 34, 90, 0.04);
+}
+.tab-container button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 18px 38px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #1a237e;
+    border-bottom: 4px solid transparent;
+    transition: background 0.2s, border-bottom 0.2s, color 0.2s;
+    border-radius: 12px 12px 0 0;
+    margin-bottom: -2px;
+}
+/* --- Per-tab coloring --- */
+.tab-container button.active:nth-child(1),
+.tab-container button.tab-tasks-active {
+    background: linear-gradient(120deg, #f8fafc 60%, #e3f2fd 100%);
+    color: #1976d2;
+    border-bottom: 4px solid #1976d2;
+    z-index: 2;
+}
+.tab-container button.active:nth-child(2),
+.tab-container button.tab-summary-active {
+    background: linear-gradient(120deg, #f9fbe7 60%, #fffde7 100%);
+    color: #1976d2;
+    border-bottom: 4px solid #1976d2;
+    z-index: 2;
+}
+.tab-container button.active:nth-child(3),
+.tab-container button.tab-chart-active {
+    background: linear-gradient(120deg, #f3e5f5 60%, #e1bee7 100%);
+    color: #1976d2;
+    border-bottom: 4px solid #1976d2;
+    z-index: 2;
+}
+/* Hover states */
+.tab-container button:nth-child(1):hover {
+    background: linear-gradient(120deg, #f8fafc 60%, #e3f2fd 100%);
+}
+.tab-container button:nth-child(2):hover {
+    background: linear-gradient(120deg, #f9fbe7 60%, #fffde7 100%);
+}
+.tab-container button:nth-child(3):hover {
+    background: linear-gradient(120deg, #f3e5f5 60%, #e1bee7 100%);
+}
+/* --- Tab Content --- */
+.tab-content {
+    display: none;
+    padding: 32px 40px;
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto 32px auto;
+    max-width: 1100px;
+    min-height: 400px;
+    box-shadow: 0 2px 12px rgba(30, 34, 90, 0.08);
+}
+#tasksTab.tab-content {
+    background: linear-gradient(120deg, #f8fafc 60%, #e3f2fd 100%);
+}
+#summaryTab.tab-content {
+    background: linear-gradient(120deg, #f9fbe7 60%, #fffde7 100%);
+}
+#chartTab.tab-content {
+    background: linear-gradient(120deg, #f3e5f5 60%, #e1bee7 100%);
+}
+/* --- Tables --- */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 18px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(30, 34, 90, 0.06);
+}
+th, td {
+    padding: 12px 10px;
+    text-align: left;
+}
+th {
+    background: #e3eafc;
+    color: #1a237e;
+    font-weight: 600;
+    border-bottom: 2px solid #bfc9d9;
+}
+tr:nth-child(even) td {
+    background: #f8fafc;
+}
+tr:hover td {
+    background: #e3f2fd;
+}
+/* --- Inputs in Table --- */
+#taskTable input[type="number"] {
+    width: 70px;
+    border: 1px solid #bfc9d9;
+    border-radius: 5px;
+    padding: 5px 8px;
+    background: #f8fafc;
+}
+#taskTable input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: #1976d2;
+}
+.suppression-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.suppression-list label {
+    font-size: 0.97rem;
+    color: #374151;
+    margin-left: 4px;
+}
+/* --- Buttons in Tabs --- */
+#saveTasksBtn, #printSummaryBtn, #saveSummaryBtn {
+    margin-bottom: 18px;
+    margin-right: 10px;
+    background: linear-gradient(90deg, #43a047 60%, #66bb6a 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(67, 160, 71, 0.08);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+#saveTasksBtn:hover, #printSummaryBtn:hover, #saveSummaryBtn:hover {
+    background: linear-gradient(90deg, #388e3c 60%, #43a047 100%);
+    box-shadow: 0 4px 12px rgba(67, 160, 71, 0.13);
+}
+#printSummaryBtn {
+    background: linear-gradient(90deg, #ffa000 80%, #ffa000 100%, #ffa000 80%);
+    color: #222;
+}
+#printSummaryBtn:hover {
+    background: linear-gradient(90deg, #ff8f00 80%, #ffa000 100%);
+}
+/* --- Professional Plan Button Colors --- */
+.saveTasksBtn[data-plan="A"], .saveSummaryBtn[data-plan="A"] {
+    background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+    color: #fff;
+}
+.saveTasksBtn[data-plan="A"]:hover, .saveSummaryBtn[data-plan="A"]:hover {
+    background: linear-gradient(90deg, #1565c0 60%, #1976d2 100%);
+}
+.saveTasksBtn[data-plan="B"], .saveSummaryBtn[data-plan="B"] {
+    background: linear-gradient(90deg, #ff9800 60%, #ffc107 100%);
+    color: #fff;
+}
+.saveTasksBtn[data-plan="B"]:hover, .saveSummaryBtn[data-plan="B"]:hover {
+    background: linear-gradient(90deg, #f57c00 60%, #ff9800 100%);
+}
+.saveTasksBtn[data-plan="C"], .saveSummaryBtn[data-plan="C"] {
+    background: linear-gradient(90deg, #388e3c 60%, #66bb6a 100%);
+    color: #fff;
+}
+.saveTasksBtn[data-plan="C"]:hover, .saveSummaryBtn[data-plan="C"]:hover {
+    background: linear-gradient(90deg, #2e7d32 60%, #388e3c 100%);
+}
+/* --- Print Plan Button Colors --- */
+.printSummaryBtn[data-plan="A"] {
+    background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+    color: #fff;
+}
+.printSummaryBtn[data-plan="A"]:hover {
+    background: linear-gradient(90deg, #1565c0 60%, #1976d2 100%);
+}
+.printSummaryBtn[data-plan="B"] {
+    background: linear-gradient(90deg, #ff9800 60%, #ffc107 100%);
+    color: #fff;
+}
+.printSummaryBtn[data-plan="B"]:hover {
+    background: linear-gradient(90deg, #f57c00 60%, #ff9800 100%);
+}
+.printSummaryBtn[data-plan="C"] {
+    background: linear-gradient(90deg, #388e3c 60%, #66bb6a 100%);
+    color: #fff;
+}
+.printSummaryBtn[data-plan="C"]:hover {
+    background: linear-gradient(90deg, #2e7d32 60%, #388e3c 100%);
+}
+/* --- Chart --- */
+#impactChart {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(30, 34, 90, 0.06);
+    padding: 18px;
+    margin-top: 18px;
+}
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .input-section, .tab-content {
+        padding: 18px 8px;
+    }
+    .tab-content {
+        min-width: 0;
+    }
+}
+@media (max-width: 600px) {
+    .input-section, .tab-content {
+        padding: 10px 2px;
+    }
+    .tab-container button {
+        padding: 12px 10px;
+        font-size: 0.98rem;
+    }
+    h1 { font-size: 1.5rem; }
+}
+/* --- Print Styles --- */
+@media print {
+    body * { visibility: hidden; }
+    #summaryTab, #summaryTab * { visibility: visible; }
+    #summaryTab { position: absolute; left: 0; top: 0; width: 100%; }
+    button#printSummaryBtn { display: none; }
+    .tab-container, .input-section, #tasksTab { display: none; }
+    #dataInputSection { display: none; }
+}
+/* --- Sub-Tabs --- */
+.sub-tab-container {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+.sub-tab-button {
+    background: #e0e0e0;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+    font-size: 0.95rem;
+    color: #333;
+    transition: background 0.2s, color 0.2s;
+}
+.sub-tab-button.active {
+    background: #fff;
+    color: #1976d2;
+    border-bottom: 1px solid #fff;
+    margin-bottom: -1px;
+    font-weight: 500;
+}
+.sub-tab-button:hover:not(.active) {
+    background: #f0f0f0;
+}
+.sub-tab-content {
+    display: none;
+    padding-top: 10px;
+}
+.sub-tab-content.active {
+    display: block;
+}
+/* --- Updated Button Styles --- */
+.saveTasksBtn, .printSummaryBtn, .saveSummaryBtn {
+    margin-bottom: 18px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 16px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    outline: none;
+}
+.saveTasksBtn:hover, .printSummaryBtn:hover, .saveSummaryBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}

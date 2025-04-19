@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Maintenance Forecaster (Multi-Plan)</title>
+	<link rel="stylesheet" href="style.css">
+	<!-- ...existing head elements... -->
+</head>
+<body>
+
+	<h1>Maintenance Forecaster (Multi-Plan)</h1>
+	<h3 style="margin-top: -10px; color: #555;">by Kuatrinnus Wijaya - April 2025</h3>
+
+	<!-- CSV File Input Section -->
+	<div class="input-section" style="max-width: 600px; margin-bottom: 0; margin-top: 24px; flex-direction: column; align-items: flex-start;">
+		<div style="margin-bottom: 8px;">
+			<label for="csvInputA" style="font-weight: 500; color: #374151;">Plan A Tasks CSV:</label>
+			<input type="file" id="csvInputA" data-plan="A" accept=".csv" style="margin-left: 12px;">
+		</div>
+		<div style="margin-bottom: 8px;">
+			<label for="csvInputB" style="font-weight: 500; color: #374151;">Plan B Tasks CSV:</label>
+			<input type="file" id="csvInputB" data-plan="B" accept=".csv" style="margin-left: 12px;">
+		</div>
+		<div>
+			<label for="csvInputC" style="font-weight: 500; color: #374151;">Plan C Tasks CSV:</label>
+			<input type="file" id="csvInputC" data-plan="C" accept=".csv" style="margin-left: 12px;">
+		</div>
+	</div>
+
+	<!-- Input Section -->
+	<div class="input-section" style="margin-top: 12px;">
+		<label for="startDate">Analysis Start Date:</label>
+		<input type="date" id="startDate" value="2025-04-26">
+		<label for="endDate">Analysis End Date:</label>
+		<input type="date" id="endDate">
+		<label for="initialAge">Initial Equipment Age (Hours):</label>
+		<input type="number" id="initialAge" value="0" min="0">
+		<label for="avgDailyUsage">Average Daily Usage (Hours):</label>
+		<input type="number" id="avgDailyUsage" value="24" min="1" max="24">
+	</div>
+
+	<!-- Data Input Section -->
+	<div id="dataInputSection" class="input-section">
+		<button id="calculateBtn">Calculate Schedules</button>
+		<!-- Hidden load buttons, triggered by file selection -->
+		<button id="loadCsvBtnA" data-plan="A" style="display: none;">Load A</button>
+		<button id="loadCsvBtnB" data-plan="B" style="display: none;">Load B</button>
+		<button id="loadCsvBtnC" data-plan="C" style="display: none;">Load C</button>
+	</div>
+
+	<!-- Tabs -->
+	<div class="tab-container">
+		<button class="tab-button active" onclick="openTab(event, 'tasksTab')">Tasks & Suppressions</button>
+		<button class="tab-button" onclick="openTab(event, 'summaryTab')">Monthly Summary</button>
+		<button class="tab-button" onclick="openTab(event, 'chartTab')">Chart</button>
+	</div>
+
+	<!-- Task Input/Management Tab -->
+	<div id="tasksTab" class="tab-content" style="display:block;">
+		<h2>Maintenance Tasks</h2>
+		<p>Review tasks, edit durations, and manage suppression activation per plan.</p>
+		<div class="sub-tab-container">
+			<button class="sub-tab-button active" onclick="openSubTab(event, 'tasksTab', 'A')">Plan A</button>
+			<button class="sub-tab-button" onclick="openSubTab(event, 'tasksTab', 'B')">Plan B</button>
+			<button class="sub-tab-button" onclick="openSubTab(event, 'tasksTab', 'C')">Plan C</button>
+		</div>
+		<!-- Plan A Tasks -->
+		<div id="tasksTabA" class="sub-tab-content active">
+			<button class="saveTasksBtn" data-plan="A">Save Plan A Tasks</button>
+			<table id="taskTableA">
+				<thead>
+					<tr><th>ID</th><th>Maintenance Item</th><th>Frequency</th><th>Duration (Hours)</th><th>Activate Suppressions</th></tr>
+				</thead>
+				<tbody><!-- Task rows for Plan A --></tbody>
+			</table>
+		</div>
+		<!-- Plan B Tasks -->
+		<div id="tasksTabB" class="sub-tab-content">
+			<button class="saveTasksBtn" data-plan="B">Save Plan B Tasks</button>
+			<table id="taskTableB">
+				<thead>
+					<tr><th>ID</th><th>Maintenance Item</th><th>Frequency</th><th>Duration (Hours)</th><th>Activate Suppressions</th></tr>
+				</thead>
+				<tbody><!-- Task rows for Plan B --></tbody>
+			</table>
+		</div>
+		<!-- Plan C Tasks -->
+		<div id="tasksTabC" class="sub-tab-content">
+			<button class="saveTasksBtn" data-plan="C">Save Plan C Tasks</button>
+			<table id="taskTableC">
+				<thead>
+					<tr><th>ID</th><th>Maintenance Item</th><th>Frequency</th><th>Duration (Hours)</th><th>Activate Suppressions</th></tr>
+				</thead>
+				<tbody><!-- Task rows for Plan C --></tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Monthly Summary Tab -->
+	<div id="summaryTab" class="tab-content">
+		<h2>Monthly Summary</h2>
+		<div class="sub-tab-container">
+			<button class="sub-tab-button active" onclick="openSubTab(event, 'summaryTab', 'A')">Plan A</button>
+			<button class="sub-tab-button" onclick="openSubTab(event, 'summaryTab', 'B')">Plan B</button>
+			<button class="sub-tab-button" onclick="openSubTab(event, 'summaryTab', 'C')">Plan C</button>
+		</div>
+		<!-- Plan A Summary -->
+		<div id="summaryTabA" class="sub-tab-content active">
+			<button class="printSummaryBtn" data-plan="A">Print Plan A Summary</button>
+			<button class="saveSummaryBtn" data-plan="A">Save Plan A Summary</button>
+			<table id="summaryTableA">
+				<thead>
+					<tr><th>Month</th><th>Total Hours</th><th>Downtime Hours</th><th>Est. Availability Impact (%)</th><th>Tasks Due</th></tr>
+				</thead>
+				<tbody><!-- Summary rows for Plan A --></tbody>
+			</table>
+		</div>
+		<!-- Plan B Summary -->
+		<div id="summaryTabB" class="sub-tab-content">
+			<button class="printSummaryBtn" data-plan="B">Print Plan B Summary</button>
+			<button class="saveSummaryBtn" data-plan="B">Save Plan B Summary</button>
+			<table id="summaryTableB">
+				<thead>
+					<tr><th>Month</th><th>Total Hours</th><th>Downtime Hours</th><th>Est. Availability Impact (%)</th><th>Tasks Due</th></tr>
+				</thead>
+				<tbody><!-- Summary rows for Plan B --></tbody>
+			</table>
+		</div>
+		<!-- Plan C Summary -->
+		<div id="summaryTabC" class="sub-tab-content">
+			<button class="printSummaryBtn" data-plan="C">Print Plan C Summary</button>
+			<button class="saveSummaryBtn" data-plan="C">Save Plan C Summary</button>
+			<table id="summaryTableC">
+				<thead>
+					<tr><th>Month</th><th>Total Hours</th><th>Downtime Hours</th><th>Est. Availability Impact (%)</th><th>Tasks Due</th></tr>
+				</thead>
+				<tbody><!-- Summary rows for Plan C --></tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Chart Tab -->
+	<div id="chartTab" class="tab-content">
+		<h2>Availability Impact Chart (Plan Comparison)</h2>
+		<canvas id="impactChart" width="800" height="400"></canvas>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="script.js"></script>
+</body>
+</html>
